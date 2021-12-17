@@ -46,25 +46,36 @@ class Grafo:
 
         return ordem, nivel, pai
 
+    def dfs(self, s):
+        vetor_marcacao = [0 for _ in range(self.vertices)]
+        pilha = [s - 1]
+        ordem = []
+        while len(pilha) != 0:
+            vertice = pilha.pop()
+            if vetor_marcacao[vertice] == 0:
+                vetor_marcacao[vertice] = 1
+                ordem.append(vertice + 1)
+                for i, vizinho in enumerate(self.matriz[vertice][::-1]):  # vértices descobertos em ordem decrescentes
+                    if vizinho == 0:
+                        continue
+                    pilha.append(len(self.matriz[vertice]) - i - 1)
+        return ordem
 
-# Grafo exercício 5 -> lista 2
-grafo = Grafo(9)
-grafo.adiciona_aresta(1,2)
-grafo.adiciona_aresta(1,6)
+
+# Grafo slide aula dfs
+grafo = Grafo(8)
+grafo.adiciona_aresta(1,3)
 grafo.adiciona_aresta(1,4)
-grafo.adiciona_aresta(2,3)
+grafo.adiciona_aresta(2,4)
+grafo.adiciona_aresta(3,8)
 grafo.adiciona_aresta(2,3)
 grafo.adiciona_aresta(3,4)
-grafo.adiciona_aresta(3,8)
-grafo.adiciona_aresta(3,5)
-grafo.adiciona_aresta(4,5)
+grafo.adiciona_aresta(4,7)
 grafo.adiciona_aresta(4,6)
-grafo.adiciona_aresta(5,6)
-grafo.adiciona_aresta(5,8)
 grafo.adiciona_aresta(5,7)
-grafo.adiciona_aresta(7,9)
-grafo.adiciona_aresta(8,9)
+grafo.adiciona_aresta(6,5)
+grafo.adiciona_aresta(6,7)
 
 grafo.imprime_matriz()
-print(grafo.bfs(1))
+print(grafo.dfs(1))
 print(grafo.grau_vertice(3))
