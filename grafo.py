@@ -37,3 +37,21 @@ class Grafo:
             ordem.append(vertice + 1)
 
         return ordem
+
+    def dfs(self, s):
+        vetor_marcacao = [0 for _ in range(self.vertices)]
+        pilha = [s - 1]
+        ordem = []
+        while len(pilha) != 0:
+            vertice = pilha.pop()
+            if vetor_marcacao[vertice] == 0:
+                vetor_marcacao[vertice] = 1
+                ordem.append(vertice + 1)
+                for i, vizinho in enumerate(self.grafo[vertice][::-1]):  # vértices descobertos em ordem decrescentes
+                    if vizinho == 0:
+                        continue
+                    if self.matriz:
+                        pilha.append(len(self.grafo[vertice]) - i - 1)
+                    if self.lista:
+                        pilha.append(vizinho)
+        return ordem
