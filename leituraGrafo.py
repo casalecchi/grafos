@@ -1,5 +1,5 @@
 from matrizAdjacencia import Grafo
-
+import sys
 
 def ler_grafo(file):
     vertices = 0
@@ -18,3 +18,8 @@ def ler_grafo(file):
     for aresta in arestas:
         g.adiciona_aresta(aresta[0], aresta[1])
     return g
+
+
+arquivo = sys.argv[1]
+grafo = ler_grafo(arquivo)
+grafo.imprime_matriz()
