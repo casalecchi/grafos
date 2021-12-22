@@ -4,7 +4,7 @@ class Grafo:
     lista = False
 
     def __init__(self, vertices):
-        self.vertices =vertices
+        self.vertices = vertices
         self.grafo = []
 
     def grau_vertice(self, u):
@@ -17,21 +17,26 @@ class Grafo:
             return grau
 
     def grau_minimo(self):
+        """Função que retorna o grau mínimo do grafo, ele determina o grau de todos os vértices e pega o menor valor dessa lista"""
         for i in range(self.vertices):
             self.l.append(self.grau_vertice(i))
         return min(self.l)
 
     def grau_maximo(self):
+        """Função que retorna o grau máximo do grafo, ele determina o grau de todos os vértices e pega o maior valor dessa lista"""
         for i in range(self.vertices):
             self.l.append(self.grau_vertice(i))
         return max(self.l)
 
     def grau_medio(self):
+        """Função que retorna o grau médio do grafo, ele determina o grau de todos os vértices, realiza a soma deles e divide pelo número de vértices"""
         for i in range(self.vertices):
             self.l.append(self.grau_vertice(i))
         return sum(self.l) / len(self.l)
 
     def mediana_de_grau(self):
+        """Função que retorna a mediana de grau, ou seja, o grau do vértice no meio da ordenação de vértices. Primeiro ela pega os graus dos vértices, ordena
+        eles e, sem seguida, caso o número de vértices seja par, pega-se os dois valores centrais e tira a média e, caso seja ímpar, pega o valor central da lista"""
         mediana = []
         for i in range(self.vertices):
             mediana.append(self.grau_vertice(i))
