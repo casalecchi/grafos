@@ -107,11 +107,11 @@ class Grafo:
                             continue
                         if len(self.grafo[vertice]) - index not in ordem:
                             # pai[len(self.grafo[vertice]) - index - 1] = vertice + 1
-                        pilha.append(len(self.grafo[vertice]) - index - 1)
+                            pilha.append(len(self.grafo[vertice]) - index - 1)
                     if self.lista:
                         if vizinho + 1 not in ordem:
                             # pai[vizinho] = vertice + 1
-                        pilha.append(vizinho)
+                            pilha.append(vizinho)
         return ordem
 
     def distancia(self, u, v):
