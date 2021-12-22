@@ -25,37 +25,6 @@ class Matriz(Grafo):
         self.grafo[v-1][u-1] = 0
         self.arestas -= 1
 
-    def grau_vertice(self, u):
-        grau = 0
-        for i in self.grafo[u-1]:
-            grau += i
-        return grau
-    
-    def grau_minimo(self):
-        for i in range(self.vertices):
-            self.l.append(self.grau_vertice(i))
-        return min(self.l)
-    
-    def grau_maximo(self):
-        for i in range(self.vertices):
-            self.l.append(self.grau_vertice(i))
-        return max(self.l)
-    
-    def grau_medio(self):
-        for i in range(self.vertices):
-            self.l.append(self.grau_vertice(i))
-        return sum(self.l)/len(self.l)
-    
-    def mediana_de_grau(self):
-        mediana = []
-        for i in range(self.vertices):
-            mediana.append(self.grau_vertice(i))
-        mediana = sorted(mediana)
-        if len(mediana) % 2 == 0:
-            media = (mediana[len(mediana) // 2 - 1] + mediana[(len(mediana) // 2)]) / 2
-            return media
-        else:
-            return mediana[len(mediana) // 2]
 
 # Grafo slide aula dfs
 grafo = Matriz(8)
