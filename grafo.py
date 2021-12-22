@@ -43,6 +43,8 @@ class Grafo:
             return mediana[len(mediana) // 2]
 
     def bfs(self, s):
+        """Executa a BFS do vértice passado como argumento e retorna uma tupla com 3 listas -> A ordem dos vértices da BFS,
+        uma lista com os níveis de cada vértice na árvore induzida e uma lista com os pais de cada vértice nesse árvore."""
         vetor_marcacao = [0 for _ in range(self.vertices)]
         descobertos = []
         ordem = []
@@ -70,7 +72,7 @@ class Grafo:
                         pai[vizinho] = vertice + 1
             ordem.append(vertice + 1)
 
-        return ordem
+        return ordem, nivel, pai
 
     def dfs(self, s):
         vetor_marcacao = [0 for _ in range(self.vertices)]
@@ -93,7 +95,25 @@ class Grafo:
                         if vizinho + 1 not in ordem:
                             pai[vizinho] = vertice + 1
                         pilha.append(vizinho)
-        return ordem, pai
+        return ordem
+
+    def distancia(self, u, v):
+        bfs = self.bfs(u)[0]
+        dist = 0
+        for elem in bfs[1:]:
+            dist += 1
+            if elem == v:
+                break
+        return dist
+
+    def diametro(self):
+        diametro = 0
+        for i in range(1, self.vertices + 1):
+            niveis = self.bfs(i)[1]
+            maior_nivel = max(niveis)
+            if maior_nivel > diametro:
+                diametro = maior_nivel
+        return diametro
 
     def componentes_conexas(self):
         componentes = []
@@ -102,10 +122,18 @@ class Grafo:
         while vertices_adicionados != self.vertices:
             for vertice in range(1, self.vertices + 1):
                 if vetor_marcacao[vertice - 1] == 0:
-                    descobertos = self.bfs(vertice)
+                    descobertos = self.bfs(vertice)[0]
                     componentes.append(descobertos)
                     for elem in descobertos:
                         vetor_marcacao[elem - 1] = 1
                         vertices_adicionados += 1
 
         return componentes
+
+    def info_cc(self):
+        cc = self.componentes_conexas()
+        num_cc = len(cc)
+        # Colocar as componentes em ordem decrescente
+        cc.sort(key=len, reverse=True)
+        tam_cc = [len(componente) for componente in cc]
+        return num_cc, tam_cc, cc

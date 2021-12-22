@@ -1,5 +1,6 @@
-from matrizAdjacencia import Grafo
+from matrizAdjacencia import Matriz
 import sys
+
 
 def ler_grafo(file):
     vertices = 0
@@ -14,7 +15,7 @@ def ler_grafo(file):
             elif len(data) == 1:
                 vertices = data[0]
     f.close()
-    g = Grafo(vertices)
+    g = Matriz(vertices)
     for aresta in arestas:
         g.adiciona_aresta(aresta[0], aresta[1])
     return g
