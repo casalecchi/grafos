@@ -19,20 +19,20 @@ class Grafo:
     def grau_minimo(self):
         """Função que retorna o grau mínimo do grafo, ele determina o grau de todos os vértices e pega o menor valor dessa lista"""
         for i in range(self.vertices):
-            self.l.append(self.grau_vertice(i))
-        return min(self.l)
+            self.lista_graus.append(self.grau_vertice(i))
+        return min(self.lista_graus)
 
     def grau_maximo(self):
         """Função que retorna o grau máximo do grafo, ele determina o grau de todos os vértices e pega o maior valor dessa lista"""
         for i in range(self.vertices):
-            self.l.append(self.grau_vertice(i))
-        return max(self.l)
+            self.lista_graus.append(self.grau_vertice(i))
+        return max(self.lista_graus)
 
     def grau_medio(self):
         """Função que retorna o grau médio do grafo, ele determina o grau de todos os vértices, realiza a soma deles e divide pelo número de vértices"""
         for i in range(self.vertices):
-            self.l.append(self.grau_vertice(i))
-        return sum(self.l) / len(self.l)
+            self.lista_graus.append(self.grau_vertice(i))
+        return sum(self.lista_graus) / len(self.lista_graus)
 
     def mediana_de_grau(self):
         """Função que retorna a mediana de grau, ou seja, o grau do vértice no meio da ordenação de vértices. Primeiro ela pega os graus dos vértices, ordena
