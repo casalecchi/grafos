@@ -98,12 +98,8 @@ class Grafo:
         return ordem
 
     def distancia(self, u, v):
-        bfs = self.bfs(u)[0]
-        dist = 0
-        for elem in bfs[1:]:
-            dist += 1
-            if elem == v:
-                break
+        nivel = self.bfs(u)[1]
+        dist = nivel[v - 1]
         return dist
 
     def diametro(self):
