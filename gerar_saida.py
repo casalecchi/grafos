@@ -1,7 +1,3 @@
-from matrizAdjacencia import grafo
-from listaAdjacencia import grafo
-
-
 def gerar_saida(file, g):
     """Função para escrever em um arquivo de texto o número de vértices, o número de arestas, o grau mínimo, o grau máximo, o grau médio, a mediana de grau
     e os detalhes das componentes conexas"""
@@ -20,4 +16,3 @@ def gerar_saida(file, g):
                   f"Tamanho da componente {i + 1} = {str(g.info_cc()[1][i])} \n"
             f.write(componentes)
     f.close()
-gerar_saida("saida.txt", grafo)

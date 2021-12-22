@@ -1,13 +1,24 @@
 class Grafo:
 
+    # Atributos que serão utilizados na bfs e na dfs para poder funcionar para ambas as implementações
     matriz = False
     lista = False
 
     def __init__(self, vertices):
         self.vertices = vertices
         self.grafo = []
+        self.lista_graus = []
+
+    def adiciona_aresta(self, u, v):
+        """Função que adiciona a aresta no grafo"""
+        pass
+
+    def remover_aresta(self, u, v):
+        """Função que remove a aresta do grafo"""
+        pass
 
     def grau_vertice(self, u):
+        """Função que retorna o grau do vértice passado como argumento."""
         if self.lista:
             return len(self.grafo[u-1])
         if self.matriz:
@@ -17,26 +28,31 @@ class Grafo:
             return grau
 
     def grau_minimo(self):
-        """Função que retorna o grau mínimo do grafo, ele determina o grau de todos os vértices e pega o menor valor dessa lista"""
+        """Função que retorna o grau mínimo do grafo, ele determina o grau
+        de todos os vértices e pega o menor valor dessa lista"""
         for i in range(self.vertices):
             self.lista_graus.append(self.grau_vertice(i))
         return min(self.lista_graus)
 
     def grau_maximo(self):
-        """Função que retorna o grau máximo do grafo, ele determina o grau de todos os vértices e pega o maior valor dessa lista"""
+        """Função que retorna o grau máximo do grafo, ele determina o grau
+        de todos os vértices e pega o maior valor dessa lista"""
         for i in range(self.vertices):
             self.lista_graus.append(self.grau_vertice(i))
         return max(self.lista_graus)
 
     def grau_medio(self):
-        """Função que retorna o grau médio do grafo, ele determina o grau de todos os vértices, realiza a soma deles e divide pelo número de vértices"""
+        """Função que retorna o grau médio do grafo, ele determina o grau
+        de todos os vértices, realiza a soma deles e divide pelo número de vértices"""
         for i in range(self.vertices):
             self.lista_graus.append(self.grau_vertice(i))
         return sum(self.lista_graus) / len(self.lista_graus)
 
     def mediana_de_grau(self):
-        """Função que retorna a mediana de grau, ou seja, o grau do vértice no meio da ordenação de vértices. Primeiro ela pega os graus dos vértices, ordena
-        eles e, sem seguida, caso o número de vértices seja par, pega-se os dois valores centrais e tira a média e, caso seja ímpar, pega o valor central da lista"""
+        """Função que retorna a mediana de grau, ou seja, o grau do vértice
+        no meio da ordenação de vértices. Primeiro ela pega os graus dos vértices, ordena
+        eles e, sem seguida, caso o número de vértices seja par, pega-se os dois valores
+        centrais e tira a média e, caso seja ímpar, pega o valor central da lista"""
         mediana = []
         for i in range(self.vertices):
             mediana.append(self.grau_vertice(i))
@@ -48,8 +64,9 @@ class Grafo:
             return mediana[len(mediana) // 2]
 
     def bfs(self, s):
-        """Executa a BFS do vértice passado como o vértice raiz e retorna uma tupla com 3 listas -> A ordem dos vértices da BFS,
-        uma lista com os níveis de cada vértice na árvore induzida e uma lista com os pais de cada vértice nesse árvore."""
+        """Executa a BFS do vértice passado como o vértice raiz e retorna uma tupla com 3 listas -> A ordem dos vértices
+        da BFS, uma lista com os níveis de cada vértice na árvore induzida e uma lista com os pais de cada vértice
+        nesse árvore."""
         vetor_marcacao = [0 for _ in range(self.vertices)]
         descobertos = []
         ordem = []
@@ -105,8 +122,9 @@ class Grafo:
                 # Vértice é marcado e adicionado a ordem que será retornada
                 vetor_marcacao[vertice] = 1
                 ordem.append(vertice + 1)
-
-                for index, vizinho in enumerate(self.grafo[vertice][::-1]):  # vértices descobertos em ordem decrescentes
+                # Assim como no algoritmo da BFS, é utilizado o index como os valores dos vizinhos
+                # Percorre os vizinhos em ordem decrescente
+                for index, vizinho in enumerate(self.grafo[vertice][::-1]):
                     if self.matriz:
                         if vizinho == 0:
                             continue
@@ -120,11 +138,13 @@ class Grafo:
         return ordem
 
     def distancia(self, u, v):
+        """"Função retorna distância entre dois vértices"""
         nivel = self.bfs(u)[1]
         dist = nivel[v - 1]
         return dist
 
     def diametro(self):
+        """Função retorna o diâmetro do grafo"""
         diametro = 0
         for i in range(1, self.vertices + 1):
             niveis = self.bfs(i)[1]
@@ -134,6 +154,7 @@ class Grafo:
         return diametro
 
     def componentes_conexas(self):
+        """Função utilizada para achar as componentes conexas do grafo"""
         componentes = []
         vertices_adicionados = 0
         vetor_marcacao = [0 for _ in range(self.vertices)]
@@ -149,6 +170,7 @@ class Grafo:
         return componentes
 
     def info_cc(self):
+        """Função retorna informações sobre as componentes conexas do grafo"""
         cc = self.componentes_conexas()
         num_cc = len(cc)
         # Colocar as componentes em ordem decrescente
