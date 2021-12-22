@@ -2,8 +2,10 @@ from grafo import Grafo
 
 
 class Lista(Grafo):
+
     arestas = 0
     l = []
+
     def __init__(self, vertices):
         self.lista = True
         self.vertices = vertices
@@ -21,35 +23,35 @@ class Lista(Grafo):
         self.grafo[v-1].append(u-1)
         for l in self.grafo:
             l.sort()
-        Grafo.arestas += 1
+        self.arestas += 1
 
     def remover_aresta(self, u, v):
         self.grafo[u-1].remove(v-1)
         self.grafo[v-1].remove(u-1)
-        Grafo.arestas -= 1
+        self.arestas -= 1
 
     def grau_vertice(self, u):
         return len(self.grafo[u-1])
     
     def grau_minimo(self):
         for i in range(self.vertices):
-            Grafo.l.append(Grafo.grau_vertice(self, i))
-        return min(Grafo.l)    
+            self.l.append(self.grau_vertice(i))
+        return min(self.l)
 
     def grau_maximo(self):
         for i in range(self.vertices):
-            Grafo.l.append(Grafo.grau_vertice(self, i))
-        return max(Grafo.l)
+            self.l.append(self.grau_vertice(i))
+        return max(self.l)
     
     def grau_medio(self):
         for i in range(self.vertices):
-            Grafo.l.append(Grafo.grau_vertice(self, i))
-        return sum(Grafo.l)/len(Grafo.l)
+            self.l.append(self.grau_vertice(i))
+        return sum(self.l)/len(self.l)
     
     def mediana_de_grau(self):
         mediana = []
         for i in range(self.vertices):
-            mediana.append(Grafo.grau_vertice(self, i))
+            mediana.append(self.grau_vertice(i))
         mediana = sorted(mediana)
         if len(mediana) % 2 == 0:
             media = (mediana[len(mediana) // 2 - 1] + mediana[(len(mediana) // 2)]) / 2
@@ -79,4 +81,4 @@ print("O grau mínimo do grafo é", grafo.grau_minimo())
 print("O grau máximo do grafo é", grafo.grau_maximo())
 print("O grau médio do grafo é", grafo.grau_medio())
 print("A mediana de grau do grafo é", grafo.mediana_de_grau())
-
+print(grafo.componentes_conexas())

@@ -35,7 +35,7 @@ class Grafo:
                         pai[vizinho] = vertice + 1
             ordem.append(vertice + 1)
 
-        return ordem, nivel, pai
+        return ordem
 
     def dfs(self, s):
         vetor_marcacao = [0 for _ in range(self.vertices)]
@@ -59,3 +59,18 @@ class Grafo:
                             pai[vizinho] = vertice + 1
                         pilha.append(vizinho)
         return ordem, pai
+
+    def componentes_conexas(self):
+        componentes = []
+        vertices_adicionados = 0
+        vetor_marcacao = [0 for _ in range(self.vertices)]
+        while vertices_adicionados != self.vertices:
+            for vertice in range(1, self.vertices + 1):
+                if vetor_marcacao[vertice - 1] == 0:
+                    descobertos = self.bfs(vertice)
+                    componentes.append(descobertos)
+                    for elem in descobertos:
+                        vetor_marcacao[elem - 1] = 1
+                        vertices_adicionados += 1
+
+        return componentes
