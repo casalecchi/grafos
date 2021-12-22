@@ -16,3 +16,4 @@ def gerar_saida(file, g):
                   f"Tamanho da componente {i + 1} = {str(g.info_cc()[1][i])} \n"
             f.write(componentes)
     f.close()
+    print("Arquivo com informações do grafo gerado.")

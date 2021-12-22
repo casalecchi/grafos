@@ -108,6 +108,15 @@ class Grafo:
 
         return ordem, nivel, pai
 
+    def arvore_bfs(self, s, file):
+        bfs, nivel, pai = self.bfs(s)
+        with open(file, 'w') as f:
+            for vertice in range(1, self.vertices + 1):
+                linha = f"Vértice {vertice}; Nível = {nivel[vertice - 1]}; Pai = {pai[vertice - 1]} \n"
+                f.write(linha)
+        f.close()
+        print("Arquivo com árvore de busca criado.")
+
     def dfs(self, s):
         """Executa a DFS do vértice passado como o vértice raiz e
         retorna uma lista com a ordem da DFS."""
