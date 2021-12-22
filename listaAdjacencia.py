@@ -4,7 +4,7 @@ from grafo import Grafo
 class Lista(Grafo):
 
     arestas = 0
-    l = []
+    lista_graus = []
 
     def __init__(self, vertices):
         self.lista = True
