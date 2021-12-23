@@ -137,11 +137,11 @@ class Grafo:
                     if self.matriz:
                         if vizinho == 0:
                             continue
-                        if len(self.grafo[vertice]) - index not in ordem:
+                        if vetor_marcacao[len(self.grafo[vertice]) - index - 1] == 0:
                             # pai[len(self.grafo[vertice]) - index - 1] = vertice + 1
                             pilha.append(len(self.grafo[vertice]) - index - 1)
                     if self.lista:
-                        if vizinho + 1 not in ordem:
+                        if vetor_marcacao[vizinho] == 0:
                             # pai[vizinho] = vertice + 1
                             pilha.append(vizinho)
         return ordem
