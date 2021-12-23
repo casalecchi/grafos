@@ -6,11 +6,11 @@ from memory_profiler import profile
 def ler_grafo(file, classe):
     """Função que lê o grafo a partir de um arquivo e usa a implementação escolhida"""
 
-    vertices = 0
     arestas = []
 
     # Abre o arquivo e lê as linhas
     with open(file) as f:
+        vertices = int(f.readline())
         for line in f.readlines():
             data = line.split()
 
@@ -18,20 +18,17 @@ def ler_grafo(file, classe):
                 # Converte os números
                 data[i] = int(data[i])
 
-            if len(data) == 2:
-                arestas.append(data)
-            elif len(data) == 1:
-                vertices = data[0]
+            arestas.append(data)
 
     f.close()
 
     if classe == "matriz":
         grafo = Matriz(vertices)
+        for aresta in arestas:
+            grafo.adiciona_aresta(aresta[0], aresta[1])
     elif classe == "lista":
-        grafo = Lista(vertices)
+        grafo = Lista(vertices, arestas)
     else:
         return "Implementação inválida."
 
-    for aresta in arestas:
-        grafo.adiciona_aresta(aresta[0], aresta[1])
     return grafo

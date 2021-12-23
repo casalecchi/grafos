@@ -1,4 +1,6 @@
 from grafo import Grafo
+import numpy as np
+from scipy.sparse import csr_matrix
 
 
 class Matriz(Grafo):
@@ -8,8 +10,8 @@ class Matriz(Grafo):
         super().__init__(vertices)
         self.matriz = True
         self.vertices = vertices
-        self.grafo = [[0] * self.vertices for _ in range(self.vertices)]
-        self.arestas = 0
+        self.grafo = csr_matrix((self.vertices, self.vertices), dtype=np.int8).toarray()
+        self.num_arestas = 0
         self.lista_graus = []
 
     def imprime_matriz(self):
@@ -21,10 +23,10 @@ class Matriz(Grafo):
         """Função que adiciona a aresta no grafo"""
         self.grafo[u-1][v-1] = 1
         self.grafo[v-1][u-1] = 1
-        self.arestas += 1
+        self.num_arestas += 1
 
     def remover_aresta(self, u, v):
         """Função que remove a aresta do grafo"""
         self.grafo[u-1][v-1] = 0
         self.grafo[v-1][u-1] = 0
-        self.arestas -= 1
+        self.num_arestas -= 1

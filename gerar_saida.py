@@ -3,7 +3,7 @@ def gerar_saida(file, g):
     e os detalhes das componentes conexas"""
     with open(file, "w+") as f:
         linha = f"Número de vértices = {str(g.vertices)} \n" \
-                f"Número de arestas = {str(g.arestas)} \n" \
+                f"Número de arestas = {str(g.num_arestas)} \n" \
                 f"Grau mínimo = {str(g.grau_minimo())} \n" \
                 f"Grau máximo = {str(g.grau_maximo())} \n" \
                 f"Grau médio = {str(g.grau_medio())} \n" \
