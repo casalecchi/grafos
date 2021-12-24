@@ -7,7 +7,10 @@ import time
 grafo = ler_grafo("grafo_1.txt", "matriz")
 
 # Na questão 2 e 3 precisamos usar os mesmos 1000 vértices aleatórios
-vertices_bfs_dfs = random.sample(range(1, grafo.vertices + 1), 1000)
+vertices_bfs_dfs = []
+for _ in range(1, 1001):
+    n = random.randint(1, grafo.vertices)
+    vertices_bfs_dfs.append(n)
 
 # Questão 2 - 1000 BFS's
 start_time = time.time()
@@ -23,25 +26,25 @@ print("--- %s seconds --- Questão 3" % (time.time() - start_time))
 
 # Questão 4 - Pai dos vértices
 start_time = time.time()
-print(grafo.pai_bfs(1, 10))
-print(grafo.pai_bfs(1, 20))
-print(grafo.pai_bfs(1, 30))
-print(grafo.pai_bfs(2, 10))
-print(grafo.pai_bfs(2, 20))
-print(grafo.pai_bfs(2, 30))
-print(grafo.pai_bfs(3, 10))
-print(grafo.pai_bfs(3, 20))
-print(grafo.pai_bfs(3, 30))
+grafo.pai_bfs(1, 10)
+grafo.pai_bfs(1, 20)
+grafo.pai_bfs(1, 30)
+grafo.pai_bfs(2, 10)
+grafo.pai_bfs(2, 20)
+grafo.pai_bfs(2, 30)
+grafo.pai_bfs(3, 10)
+grafo.pai_bfs(3, 20)
+grafo.pai_bfs(3, 30)
 
-print(grafo.pai_dfs(1, 10))
-print(grafo.pai_dfs(1, 20))
-print(grafo.pai_dfs(1, 30))
-print(grafo.pai_dfs(2, 10))
-print(grafo.pai_dfs(2, 20))
-print(grafo.pai_dfs(2, 30))
-print(grafo.pai_dfs(3, 10))
-print(grafo.pai_dfs(3, 20))
-print(grafo.pai_dfs(3, 30))
+grafo.pai_dfs(1, 10)
+grafo.pai_dfs(1, 20)
+grafo.pai_dfs(1, 30)
+grafo.pai_dfs(2, 10)
+grafo.pai_dfs(2, 20)
+grafo.pai_dfs(2, 30)
+grafo.pai_dfs(3, 10)
+grafo.pai_dfs(3, 20)
+grafo.pai_dfs(3, 30)
 print("--- %s seconds --- Questão 4" % (time.time() - start_time))
 
 # Questão 5 - Distância entre vértices
