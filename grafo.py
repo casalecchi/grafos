@@ -1,6 +1,7 @@
 from math import log2
 from random import sample
 
+
 class Grafo:
 
     # Atributos que serão utilizados na bfs e na dfs para poder funcionar para ambas as implementações
