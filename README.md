@@ -35,7 +35,7 @@ pip3 install -r requirements.txt
 Um exemplo de utilização é mostrado:
 
 ```python3
-from leitura_grafo import ler_grafo
+from grafos.leitura_grafo import ler_grafo
 ler_grafo("grafo_teste.txt", "matriz")
 ```
 
