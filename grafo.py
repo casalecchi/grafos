@@ -119,7 +119,7 @@ class Grafo:
         # Cria-se a pilha e o vértice raiz é adicionado.
         pilha = [s - 1]
         ordem = []
-        # pai = [-1 for _ in range(self.vertices)]
+        pai = [-1 for _ in range(self.vertices)]
         while len(pilha) != 0:
             vertice = pilha.pop()
             if vetor_marcacao[vertice] == 0:
@@ -132,15 +132,15 @@ class Grafo:
                 if self.matriz:
                     for vizinho in list(self.grafo[vertice].keys())[::-1]:
                         if vetor_marcacao[vizinho[1]] == 0:
-                            # pai[len(self.grafo[vertice]) - index - 1] = vertice + 1
+                            pai[vizinho[1]] = vertice + 1
                             pilha.append(vizinho[1])
 
                 if self.lista:
                     for vizinho in self.grafo[vertice][::-1]:
                         if vetor_marcacao[vizinho] == 0:
-                            # pai[vizinho] = vertice + 1
+                            pai[vizinho] = vertice + 1
                             pilha.append(vizinho)
-        return ordem
+        return ordem, pai
 
     def distancia(self, u, v):
         """"Função retorna distância entre dois vértices"""
@@ -157,6 +157,14 @@ class Grafo:
             if maior_nivel > diametro:
                 diametro = maior_nivel
         return diametro
+
+    def pai_bfs(self, raiz, v):
+        pai = self.bfs(raiz)[2]
+        return pai[v - 1]
+
+    def pai_dfs(self, raiz, v):
+        pai = self.dfs(raiz)[1]
+        return pai[v - 1]
 
     def componentes_conexas(self):
         """Função utilizada para achar as componentes conexas do grafo"""
