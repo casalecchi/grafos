@@ -9,6 +9,7 @@ class Matriz(Grafo):
         super().__init__(vertices)
         self.matriz = True
         self.vertices = vertices
+        # Foi utilizado a matriz esparsa "dok_matrix" implementada na biblioteca scipy
         self.grafo = dok_matrix((self.vertices, self.vertices))
         self.num_arestas = 0
         self.lista_graus = []
