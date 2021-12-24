@@ -180,10 +180,14 @@ class Grafo:
         return diametro
 
     def pai_bfs(self, raiz, v):
+        """Função utilizada para retornar o pai de um vértice v, dado que a BFS foi realizada
+        em um vértice raiz."""
         pai = self.bfs(raiz)[2]
         return pai[v - 1]
 
     def pai_dfs(self, raiz, v):
+        """Função utilizada para retornar o pai de um vértice v, dado que a DFS foi realizada
+        em um vértice raiz."""
         pai = self.dfs(raiz)[1]
         return pai[v - 1]
 

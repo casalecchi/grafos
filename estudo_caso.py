@@ -16,6 +16,11 @@ start_time = time.time()
 grafo.bfs(1)
 print("--- %s seconds --- 1 BFS" % (time.time() - start_time))
 
+start_time = time.time()
+grafo.dfs(1)
+print("--- %s seconds --- 1 DFS" % (time.time() - start_time))
+
+
 # Questão 2 - 1000 BFS's
 start_time = time.time()
 for v in vertices_bfs_dfs:

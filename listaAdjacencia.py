@@ -28,6 +28,7 @@ class Lista(Grafo):
             self.grafo[aresta[0] - 1].append(aresta[1] - 1)
             self.grafo[aresta[1] - 1].append(aresta[0] - 1)
 
+        # Lista dos vizinhos de cada vértice é ordenada para funcionamento da BFS e DFS
         for lista_vertice in self.grafo:
             lista_vertice.sort()
 
