@@ -1,3 +1,6 @@
+from math import log2
+from random import sample
+
 class Grafo:
 
     # Atributos que serão utilizados na bfs e na dfs para poder funcionar para ambas as implementações
@@ -151,11 +154,22 @@ class Grafo:
     def diametro(self):
         """Função retorna o diâmetro do grafo"""
         diametro = 0
-        for i in range(1, self.vertices + 1):
-            niveis = self.bfs(i)[1]
-            maior_nivel = max(niveis)
-            if maior_nivel > diametro:
-                diametro = maior_nivel
+
+        # Implementação para grafos muito grandes com algoritmo aproximativo
+        if self.vertices > 1000000:
+            num_vertices = log2(self.vertices)
+            vertices_bfs = sample(range(1, self.vertices + 1), num_vertices)
+            for v in vertices_bfs:
+                niveis = self.bfs(v)[1]
+                maior_nivel = max(niveis)
+                if maior_nivel > diametro:
+                    diametro = maior_nivel
+        else:
+            for i in range(1, self.vertices + 1):
+                niveis = self.bfs(i)[1]
+                maior_nivel = max(niveis)
+                if maior_nivel > diametro:
+                    diametro = maior_nivel
         return diametro
 
     def pai_bfs(self, raiz, v):
