@@ -1,4 +1,4 @@
-from math import log2
+from math import log10
 from random import sample
 
 
@@ -158,7 +158,7 @@ class Grafo:
 
         # Implementação para grafos muito grandes com algoritmo aproximativo
         if self.vertices > 1000000:
-            num_vertices = log2(self.vertices)
+            num_vertices = log10(2) * self.vertices
             vertices_bfs = sample(range(1, self.vertices + 1), num_vertices)
             for v in vertices_bfs:
                 niveis = self.bfs(v)[1]
