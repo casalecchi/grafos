@@ -36,8 +36,8 @@ Um exemplo de utilização é mostrado:
 
 ```python3
 from leituraGrafo import ler_grafo
-ler_grafo("grafo_teste.txt", "matriz")
+grafo = ler_grafo("grafo_teste.txt", "matriz")
 ```
 
-Lembrando que no exemplo acima o arquivo lendo o grafo deve estar dentro do diretório da biblioteca "grafos". Dentro da biblioteca é possível achar o arquivo "estudo_caso.py" que foi utilizado para fazer os estudos de caso que é pedido pelo trabalho prático. Nele temos alguns exemplos de utilização das funcionalidades citadas acima.
+Lembrando que no exemplo acima o arquivo lendo o grafo deve estar dentro do diretório da biblioteca "grafos". A variável "grafo" acima será uma instância da classe escolhida pelo usuário. Tanto a classe Matriz como a classe Lista são filhas da classe Grafo. Dentro da biblioteca é possível achar o arquivo "estudo_caso.py" que foi utilizado para fazer os estudos de caso que é pedido pelo trabalho prático. Nele temos alguns exemplos de utilização das funcionalidades citadas acima.
 
