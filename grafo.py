@@ -25,25 +25,30 @@ class Grafo:
         """Função que retorna o grau do vértice passado como argumento."""
         return len(self.grafo[u-1])
 
+    def calcula_lista_graus(self):
+        """Função que calcula a lista com os graus de cada vértice"""
+        for vertice in range(self.vertices):
+            self.lista_graus.append(self.grau_vertice(vertice))
+
     def grau_minimo(self):
         """Função que retorna o grau mínimo do grafo, ele determina o grau
         de todos os vértices e pega o menor valor dessa lista"""
-        for i in range(self.vertices):
-            self.lista_graus.append(self.grau_vertice(i))
+        if not self.lista_graus:
+            self.calcula_lista_graus()
         return min(self.lista_graus)
 
     def grau_maximo(self):
         """Função que retorna o grau máximo do grafo, ele determina o grau
         de todos os vértices e pega o maior valor dessa lista"""
-        for i in range(self.vertices):
-            self.lista_graus.append(self.grau_vertice(i))
+        if not self.lista_graus:
+            self.calcula_lista_graus()
         return max(self.lista_graus)
 
     def grau_medio(self):
         """Função que retorna o grau médio do grafo, ele determina o grau
         de todos os vértices, realiza a soma deles e divide pelo número de vértices"""
-        for i in range(self.vertices):
-            self.lista_graus.append(self.grau_vertice(i))
+        if not self.lista_graus:
+            self.calcula_lista_graus()
         return sum(self.lista_graus) / len(self.lista_graus)
 
     def mediana_de_grau(self):
@@ -51,15 +56,23 @@ class Grafo:
         no meio da ordenação de vértices. Primeiro ela pega os graus dos vértices, ordena
         eles e, sem seguida, caso o número de vértices seja par, pega-se os dois valores
         centrais e tira a média e, caso seja ímpar, pega o valor central da lista"""
-        mediana = []
-        for i in range(self.vertices):
-            mediana.append(self.grau_vertice(i))
-        mediana = sorted(mediana)
+        if not self.lista_graus:
+            self.calcula_lista_graus()
+        mediana = sorted(self.lista_graus)
         if len(mediana) % 2 == 0:
             media = (mediana[len(mediana) // 2 - 1] + mediana[(len(mediana) // 2)]) / 2
             return media
         else:
             return mediana[len(mediana) // 2]
+
+    def vizinhos_bfs(self, s):
+        """Função auxiliar a BFS, que retorna uma lista com os vizinhos a serem percorridos de um vértice s.
+        Verifica qual é a implementação para poder criar essa lista."""
+        if self.lista:
+            return self.grafo[s]
+        elif self.matriz:
+            pares_vertices = self.grafo[s].keys()
+            return list(map(lambda x: x[1], pares_vertices))
 
     def bfs(self, s):
         """Executa a BFS do vértice passado como o vértice raiz e retorna uma tupla com 3 listas -> A ordem dos vértices
@@ -84,24 +97,14 @@ class Grafo:
             nivel_atual = nivel[vertice] + 1
 
             # Como em cada implementação temos que percorrer por iteráveis diferentes
-            # foi usado uma variável booleana para identificar qual implementação está
-            # sendo usada
-            if self.matriz:
-                # Percorre os vizinhos pela matriz esparsa -> retorna um dict_keys com os vizinhos do vértices
-                for vizinho in self.grafo[vertice].keys():
-                    if vetor_marcacao[vizinho[1]] == 0:
-                        vetor_marcacao[vizinho[1]] = 1
-                        descobertos.append(vizinho[1])
-                        nivel[vizinho[1]] = nivel_atual
-                        pai[vizinho[1]] = vertice + 1
-
-            if self.lista:
-                for vizinho in self.grafo[vertice]:
-                    if vetor_marcacao[vizinho] == 0:
-                        vetor_marcacao[vizinho] = 1
-                        descobertos.append(vizinho)
-                        nivel[vizinho] = nivel_atual
-                        pai[vizinho] = vertice + 1
+            # foi usado uma função auxiliar "vizinhos_bfs" em que retorna uma lista com os
+            # vizinhos do vértice passado
+            for vizinho in self.vizinhos_bfs(vertice):
+                if vetor_marcacao[vizinho] == 0:
+                    vetor_marcacao[vizinho] = 1
+                    descobertos.append(vizinho)
+                    nivel[vizinho] = nivel_atual
+                    pai[vizinho] = vertice + 1
 
             ordem.append(vertice + 1)
 
@@ -115,6 +118,15 @@ class Grafo:
                 f.write(linha)
         f.close()
         print("Arquivo com árvore de busca criado.")
+
+    def vizinhos_dfs(self, s):
+        """Função auxiliar a DFS, que retorna uma lista com os vizinhos de um determinado vértice s
+        em ordem decrescente. Verifica qual é a implementação para poder criar essa lista."""
+        if self.lista:
+            return self.grafo[s][::-1]
+        elif self.matriz:
+            pares_vertices = self.grafo[s].keys()
+            return list(map(lambda x: x[1], pares_vertices))[::-1]
 
     def dfs(self, s):
         """Executa a DFS do vértice passado como o vértice raiz e
@@ -131,19 +143,13 @@ class Grafo:
                 vetor_marcacao[vertice] = 1
                 ordem.append(vertice + 1)
 
-                # Assim como no algoritmo da BFS, é utilizado uma verificação para saber qual
-                # implementacão está sendo usada.
-                if self.matriz:
-                    for vizinho in list(self.grafo[vertice].keys())[::-1]:
-                        if vetor_marcacao[vizinho[1]] == 0:
-                            pai[vizinho[1]] = vertice + 1
-                            pilha.append(vizinho[1])
+                # Assim como no algoritmo da BFS, é utilizado uma função auxiliar para obter uma lista
+                # dos vizinhos.
+                for vizinho in self.vizinhos_dfs(vertice):
+                    if vetor_marcacao[vizinho] == 0:
+                        pai[vizinho] = vertice + 1
+                        pilha.append(vizinho)
 
-                if self.lista:
-                    for vizinho in self.grafo[vertice][::-1]:
-                        if vetor_marcacao[vizinho] == 0:
-                            pai[vizinho] = vertice + 1
-                            pilha.append(vizinho)
         return ordem, pai
 
     def distancia(self, u, v):

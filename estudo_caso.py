@@ -4,13 +4,17 @@ import time
 
 
 # Questão 1 vai printar pelo memory profiler
-grafo = ler_grafo("grafo_6.txt", "matriz")
+grafo = ler_grafo("grafo_5.txt", "matriz")
 
 # Na questão 2 e 3 precisamos usar os mesmos 1000 vértices aleatórios
 vertices_bfs_dfs = []
 for _ in range(1, 1001):
     n = random.randint(1, grafo.vertices)
     vertices_bfs_dfs.append(n)
+
+start_time = time.time()
+grafo.bfs(1)
+print("--- %s seconds --- 1 BFS" % (time.time() - start_time))
 
 # Questão 2 - 1000 BFS's
 start_time = time.time()
