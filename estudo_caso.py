@@ -4,7 +4,7 @@ import time
 
 
 # Questão 1 vai printar pelo memory profiler
-grafo = ler_grafo("grafo_1.txt", "matriz")
+grafo = ler_grafo("grafo_6.txt", "matriz")
 
 # Na questão 2 e 3 precisamos usar os mesmos 1000 vértices aleatórios
 vertices_bfs_dfs = []
