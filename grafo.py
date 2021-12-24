@@ -19,13 +19,7 @@ class Grafo:
 
     def grau_vertice(self, u):
         """Função que retorna o grau do vértice passado como argumento."""
-        if self.lista:
-            return len(self.grafo[u-1])
-        if self.matriz:
-            grau = 0
-            for i in self.grafo[u - 1]:
-                grau += i
-            return grau
+        return len(self.grafo[u-1])
 
     def grau_minimo(self):
         """Função que retorna o grau mínimo do grafo, ele determina o grau
