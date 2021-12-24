@@ -1,0 +1,2 @@
+memory_profiler==0.60.0
+scipy==1.7.3
