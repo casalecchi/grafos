@@ -25,6 +25,6 @@ class Matriz(Grafo):
 
     def remover_aresta(self, u, v):
         """Função que remove a aresta do grafo"""
-        self.grafo[u-1][v-1] = 0
-        self.grafo[v-1][u-1] = 0
+        self.grafo[u - 1, v - 1] = 0
+        self.grafo[v - 1, u - 1] = 0
         self.num_arestas -= 1
