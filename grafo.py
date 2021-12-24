@@ -88,22 +88,24 @@ class Grafo:
             # Iteração usando tanto os index como os valores dos vizinhos
             # O index será útil para descobrir que é o vizinho que possui valor 1 na matriz de adjacência.
             # O valor do vizinho será útil para adicioná-lo na fila na lista de adjacência.
-            for index, vizinho in enumerate(self.grafo[vertice]):
-                if self.matriz:
-                    # Caso o valor do vizinho seja 0 -> o vértice não é vizinho do vértice analisado.
-                    if vizinho == 0:
-                        continue
-                    if vetor_marcacao[index] == 0:
-                        vetor_marcacao[index] = 1
-                        descobertos.append(index)
-                        nivel[index] = nivel_atual
-                        pai[index] = vertice + 1
-                if self.lista:
+
+            if self.matriz:
+                # Caso o valor do vizinho seja 0 -> o vértice não é vizinho do vértice analisado.
+                for vizinho in self.grafo[vertice].keys():
+                    if vetor_marcacao[vizinho[1]] == 0:
+                        vetor_marcacao[vizinho[1]] = 1
+                        descobertos.append(vizinho[1])
+                        nivel[vizinho[1]] = nivel_atual
+                        pai[vizinho[1]] = vertice + 1
+
+            if self.lista:
+                for index, vizinho in enumerate(self.grafo[vertice]):
                     if vetor_marcacao[vizinho] == 0:
                         vetor_marcacao[vizinho] = 1
                         descobertos.append(vizinho)
                         nivel[vizinho] = nivel_atual
                         pai[vizinho] = vertice + 1
+
             ordem.append(vertice + 1)
 
         return ordem, nivel, pai
@@ -133,14 +135,15 @@ class Grafo:
                 ordem.append(vertice + 1)
                 # Assim como no algoritmo da BFS, é utilizado o index como os valores dos vizinhos
                 # Percorre os vizinhos em ordem decrescente
-                for index, vizinho in enumerate(self.grafo[vertice][::-1]):
-                    if self.matriz:
-                        if vizinho == 0:
-                            continue
-                        if vetor_marcacao[len(self.grafo[vertice]) - index - 1] == 0:
+
+                if self.matriz:
+                    for vizinho in list(self.grafo[vertice].keys())[::-1]:
+                        if vetor_marcacao[vizinho[1]] == 0:
                             # pai[len(self.grafo[vertice]) - index - 1] = vertice + 1
-                            pilha.append(len(self.grafo[vertice]) - index - 1)
-                    if self.lista:
+                            pilha.append(vizinho[1])
+
+                if self.lista:
+                    for vizinho in self.grafo[vertice][::-1]:
                         if vetor_marcacao[vizinho] == 0:
                             # pai[vizinho] = vertice + 1
                             pilha.append(vizinho)

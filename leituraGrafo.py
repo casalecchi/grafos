@@ -2,6 +2,7 @@ from matrizAdjacencia import Matriz
 from listaAdjacencia import Lista
 from memory_profiler import profile
 
+
 @profile
 def ler_grafo(file, classe):
     """Função que lê o grafo a partir de um arquivo e usa a implementação escolhida"""

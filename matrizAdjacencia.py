@@ -1,6 +1,5 @@
 from grafo import Grafo
-import numpy as np
-from scipy.sparse import csr_matrix
+from scipy.sparse import dok_matrix
 
 
 class Matriz(Grafo):
@@ -10,19 +9,18 @@ class Matriz(Grafo):
         super().__init__(vertices)
         self.matriz = True
         self.vertices = vertices
-        self.grafo = csr_matrix((self.vertices, self.vertices), dtype=np.int8).toarray()
+        self.grafo = dok_matrix((self.vertices, self.vertices))
         self.num_arestas = 0
         self.lista_graus = []
 
     def imprime_matriz(self):
         """Função que imprime a matriz de adjacência"""
-        for i in self.grafo:
-            print(i)
+        print(self.grafo.toarray())
 
     def adiciona_aresta(self, u, v):
         """Função que adiciona a aresta no grafo"""
-        self.grafo[u-1][v-1] = 1
-        self.grafo[v-1][u-1] = 1
+        self.grafo[u - 1, v - 1] = 1
+        self.grafo[v - 1, u - 1] = 1
         self.num_arestas += 1
 
     def remover_aresta(self, u, v):
