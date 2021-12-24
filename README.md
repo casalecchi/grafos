@@ -35,9 +35,9 @@ pip3 install -r requirements.txt
 Um exemplo de utilização é mostrado:
 
 ```python3
-from grafos.leitura_grafo import ler_grafo
+from leituraGrafo import ler_grafo
 ler_grafo("grafo_teste.txt", "matriz")
 ```
 
-Dentro da biblioteca é possível achar o arquivo "estudo_caso.py" que foi utilizado para fazer os estudos de caso que é pedido pelo trabalho prático. Nele temos alguns exemplos de utilização das funcionalidades citadas acima.
+Lembrando que no exemplo acima o arquivo lendo o grafo deve estar dentro do diretório da biblioteca "grafos". Dentro da biblioteca é possível achar o arquivo "estudo_caso.py" que foi utilizado para fazer os estudos de caso que é pedido pelo trabalho prático. Nele temos alguns exemplos de utilização das funcionalidades citadas acima.
 
