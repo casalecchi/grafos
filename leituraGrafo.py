@@ -26,7 +26,7 @@ def ler_grafo(file, classe):
     if classe == "matriz":
         grafo = Matriz(vertices)
         for aresta in arestas:
-            grafo.adiciona_aresta(aresta[0], aresta[1])
+            grafo.adiciona_aresta(aresta[0], aresta[1], aresta[2])
     elif classe == "lista":
         grafo = Lista(vertices, arestas)
     else:

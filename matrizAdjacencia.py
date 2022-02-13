@@ -16,12 +16,12 @@ class Matriz(Grafo):
 
     def imprime_matriz(self):
         """Função que imprime a matriz de adjacência"""
-        print(self.grafo.toarray())
+        print(self.grafo)
 
-    def adiciona_aresta(self, u, v):
+    def adiciona_aresta(self, u, v, peso):
         """Função que adiciona a aresta no grafo"""
-        self.grafo[u - 1, v - 1] = 1
-        self.grafo[v - 1, u - 1] = 1
+        self.grafo[u - 1, v - 1] = peso
+        self.grafo[v - 1, u - 1] = peso
         self.num_arestas += 1
 
     def remover_aresta(self, u, v):
@@ -29,3 +29,13 @@ class Matriz(Grafo):
         self.grafo[u - 1, v - 1] = 0
         self.grafo[v - 1, u - 1] = 0
         self.num_arestas -= 1
+
+
+g = Matriz(5)
+g.adiciona_aresta(1, 2, 0.1)
+g.adiciona_aresta(1, 5, 1)
+g.adiciona_aresta(2, 5, 0.2)
+g.adiciona_aresta(3, 5, 5)
+g.adiciona_aresta(3, 4, -9.5)
+g.adiciona_aresta(4, 5, 2.3)
+g.imprime_matriz()

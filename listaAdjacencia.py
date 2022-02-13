@@ -19,14 +19,14 @@ class Lista(Grafo):
         for i in range(self.vertices):
             print(str(i+1) + " -> ", end="")
             for v in self.grafo[i]:
-                print(str(v+1) + ", ", end="")
+                print(str(v[0]+1) + " peso: " + str(v[1]) + ", ", end="")
             print()
 
     def adiciona_arestas(self):
         """Função que adiciona a aresta no grafo"""
         for aresta in self.arestas:
-            self.grafo[aresta[0] - 1].append(aresta[1] - 1)
-            self.grafo[aresta[1] - 1].append(aresta[0] - 1)
+            self.grafo[aresta[0] - 1].append([aresta[1] - 1, aresta[2]])
+            self.grafo[aresta[1] - 1].append([aresta[0] - 1, aresta[2]])
 
         # Lista dos vizinhos de cada vértice é ordenada para funcionamento da BFS e DFS
         for lista_vertice in self.grafo:
@@ -37,3 +37,8 @@ class Lista(Grafo):
         self.grafo[u-1].remove(v-1)
         self.grafo[v-1].remove(u-1)
         self.num_arestas -= 1
+
+
+arestas = [[1, 2, 0.1], [1, 5, 1], [2, 5, 0.2], [3, 5, 5], [3, 4, -9.5], [4, 5, 2.3]]
+g = Lista(5, arestas)
+g.imprime_lista()
