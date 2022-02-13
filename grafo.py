@@ -215,3 +215,18 @@ class Grafo:
         cc.sort(key=len, reverse=True)
         tam_cc = [len(componente) for componente in cc]
         return num_cc, tam_cc, cc
+
+    # Implementação da Parte 2 do Trabalho - GRAFOS COM PESOS
+
+    '''
+    1) Implementar a distância entre dois vértices, assim como indicar o caminho.
+    2) Se o grafo não possuir peso, usar a buca em largura.
+    3) Se possuir pesos não negativos -> usar Dijkstra.
+    4) Se possuir pesos negativos -> usar Floyd-Warshall ou Bellman-Ford.
+    5) Se possuir pesos negativos -> detectar ciclos negativos (casos em que a distância não está definida).
+    6) Além de calcular a distância e caminho mínimo entre um par de vértices, fazer isso com um vértice para
+    todos os outros. 
+    7) Encontrar uma árvore geradora mínima do grafo. 
+    8) MST deve ser escrita em um arquivo.    
+    '''
+

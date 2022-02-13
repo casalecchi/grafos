@@ -13,6 +13,8 @@ class Matriz(Grafo):
         self.grafo = dok_matrix((self.vertices, self.vertices))
         self.num_arestas = 0
         self.lista_graus = []
+        self.tem_peso = False
+        self.tem_peso_negativo = False
 
     def imprime_matriz(self):
         """Função que imprime a matriz de adjacência"""
@@ -20,6 +22,11 @@ class Matriz(Grafo):
 
     def adiciona_aresta(self, u, v, peso):
         """Função que adiciona a aresta no grafo"""
+        if (not self.tem_peso) and (peso != 1):
+            self.tem_peso = True
+        if self.tem_peso and (peso < 0):
+            self.tem_peso_negativo = True
+
         self.grafo[u - 1, v - 1] = peso
         self.grafo[v - 1, u - 1] = peso
         self.num_arestas += 1
@@ -39,3 +46,5 @@ g.adiciona_aresta(3, 5, 5)
 g.adiciona_aresta(3, 4, -9.5)
 g.adiciona_aresta(4, 5, 2.3)
 g.imprime_matriz()
+print(g.tem_peso)
+print(g.tem_peso_negativo)

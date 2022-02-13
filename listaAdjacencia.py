@@ -12,6 +12,8 @@ class Lista(Grafo):
         self.grafo = [[] for _ in range(self.vertices)]
         self.num_arestas = len(arestas)
         self.lista_graus = []
+        self.tem_peso = False
+        self.tem_peso_negativo = False
         self.adiciona_arestas()
 
     def imprime_lista(self):
@@ -28,6 +30,11 @@ class Lista(Grafo):
             self.grafo[aresta[0] - 1].append([aresta[1] - 1, aresta[2]])
             self.grafo[aresta[1] - 1].append([aresta[0] - 1, aresta[2]])
 
+            if (not self.tem_peso) and (aresta[2] != 1):
+                self.tem_peso = True
+            if self.tem_peso and (aresta[2] < 0):
+                self.tem_peso_negativo = True
+
         # Lista dos vizinhos de cada vértice é ordenada para funcionamento da BFS e DFS
         for lista_vertice in self.grafo:
             lista_vertice.sort()
@@ -39,6 +46,8 @@ class Lista(Grafo):
         self.num_arestas -= 1
 
 
-arestas = [[1, 2, 0.1], [1, 5, 1], [2, 5, 0.2], [3, 5, 5], [3, 4, -9.5], [4, 5, 2.3]]
-g = Lista(5, arestas)
+a = [[1, 2, 0.1], [1, 5, 1], [2, 5, 0.2], [3, 5, 5], [3, 4, -9.5], [4, 5, 2.3]]
+g = Lista(5, a)
 g.imprime_lista()
+print(g.tem_peso)
+print(g.tem_peso_negativo)
