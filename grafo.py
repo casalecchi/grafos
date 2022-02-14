@@ -14,6 +14,8 @@ class Grafo:
         self.vertices = vertices
         self.grafo = []
         self.lista_graus = []
+        self.tem_peso = False
+        self.tem_peso_negativo = False
 
     def adiciona_aresta(self, u, v):
         """Função que adiciona a aresta no grafo"""
@@ -250,7 +252,7 @@ class Grafo:
                 return infinito
             return self.grafo[(u, v)]
 
-    def djikstra(self, s):
+    def dijkstra(self, s):
         infinito = float('inf')
         distancia = [infinito for _ in range(self.vertices)]
         descobertos = [False for _ in range(self.vertices)]
@@ -307,3 +309,27 @@ class Grafo:
                 return
 
         return distancias, pai
+
+    def buscar(self, s):
+        """Função que faz uma buscar a partir do vértice passado. Retorna os vetores de distância e pai."""
+        if self.tem_peso_negativo:
+            return self.bellman_ford(s)
+        if self.tem_peso:
+            return self.dijkstra(s)
+        else:
+            return self.bfs(s)[1:]
+
+    def dist_caminho_min(self, u, v):
+        distancias, pai = self.buscar(u)
+        caminho = [v]
+        vertice = v - 1
+        while vertice != -1:
+            vertice = pai[vertice]
+            caminho.append(vertice + 1)
+        return distancias[v - 1], caminho[::-1][1:]
+
+    def dist_caminho_min_todos(self, v):
+        dist_caminhos = []
+        for w in range(1, self.vertices + 1):
+            dist_caminhos.append(self.dist_caminho_min(v, w))
+        return dist_caminhos

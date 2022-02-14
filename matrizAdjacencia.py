@@ -13,8 +13,6 @@ class Matriz(Grafo):
         self.grafo = dok_matrix((self.vertices, self.vertices))
         self.num_arestas = 0
         self.lista_graus = []
-        self.tem_peso = False
-        self.tem_peso_negativo = False
 
     def imprime_matriz(self):
         """Função que imprime a matriz de adjacência"""
@@ -53,4 +51,4 @@ g.adiciona_aresta(4, 3, 1)
 g.imprime_matriz()
 print(g.tem_peso)
 print(g.tem_peso_negativo)
-print(g.bellman_ford(1))
+print(g.dist_caminho_min_todos(1))

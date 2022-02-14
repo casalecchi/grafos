@@ -17,7 +17,10 @@ def ler_grafo(file, classe):
 
             for i in range(len(data)):
                 # Converte os números
-                data[i] = int(data[i])
+                if i < 2:
+                    data[i] = int(data[i])
+                else:
+                    data[i] = float(data[i])
 
             arestas.append(data)
 

@@ -12,8 +12,6 @@ class Lista(Grafo):
         self.grafo = [[] for _ in range(self.vertices)]
         self.num_arestas = len(arestas)
         self.lista_graus = []
-        self.tem_peso = False
-        self.tem_peso_negativo = False
         self.adiciona_arestas()
 
     def imprime_lista(self):
@@ -51,4 +49,4 @@ g = Lista(5, a)
 g.imprime_lista()
 print(g.tem_peso)
 print(g.tem_peso_negativo)
-print(g.bellman_ford(1))
+print(g.dist_caminho_min(1,5))
