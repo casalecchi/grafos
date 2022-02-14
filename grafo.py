@@ -1,5 +1,7 @@
 from math import log10
 from random import sample
+from heapq import heappop, heappush
+from scipy.sparse import csr_matrix
 
 
 class Grafo:
@@ -69,7 +71,10 @@ class Grafo:
         """Função auxiliar a BFS, que retorna uma lista com os vizinhos a serem percorridos de um vértice s.
         Verifica qual é a implementação para poder criar essa lista."""
         if self.lista:
-            return self.grafo[s]
+            vizinhos = []
+            for vizinho in self.grafo[s]:
+                vizinhos.append(vizinho[0])
+            return vizinhos
         elif self.matriz:
             pares_vertices = self.grafo[s].keys()
             return list(map(lambda x: x[1], pares_vertices))
@@ -123,7 +128,10 @@ class Grafo:
         """Função auxiliar a DFS, que retorna uma lista com os vizinhos de um determinado vértice s
         em ordem decrescente. Verifica qual é a implementação para poder criar essa lista."""
         if self.lista:
-            return self.grafo[s][::-1]
+            vizinhos = []
+            for vizinho in self.grafo[s]:
+                vizinhos.append(vizinho[0])
+            return vizinhos[::-1]
         elif self.matriz:
             pares_vertices = self.grafo[s].keys()
             return list(map(lambda x: x[1], pares_vertices))[::-1]
@@ -230,3 +238,72 @@ class Grafo:
     8) MST deve ser escrita em um arquivo.    
     '''
 
+    def peso_aresta(self, u, v):
+        infinito = float("inf")
+        if self.lista:
+            for aresta in self.grafo[u]:
+                if aresta[0] == v:
+                    return aresta[1]
+            return infinito
+        if self.matriz:
+            if self.grafo[(u, v)] == 0:
+                return infinito
+            return self.grafo[(u, v)]
+
+    def djikstra(self, s):
+        infinito = float('inf')
+        distancia = [infinito for _ in range(self.vertices)]
+        descobertos = [False for _ in range(self.vertices)]
+        pai = [-1 for _ in range(self.vertices)]
+        distancia[s - 1] = 0
+        fila = [(0, s - 1)]
+
+        while len(fila) > 0:
+            peso, u = heappop(fila)
+
+            if descobertos[u]:
+                continue
+
+            descobertos[u] = True
+
+            for vizinho in self.vizinhos_bfs(u):
+                peso_uv = self.peso_aresta(u, vizinho)
+                if distancia[vizinho] > distancia[u] + peso_uv:
+                    distancia[vizinho] = distancia[u] + peso_uv
+                    pai[vizinho] = u
+                    heappush(fila, (distancia[vizinho], vizinho))
+
+        return distancia, pai
+
+    def arestas_grafo(self):
+        if self.lista:
+            arestas = []
+            for aresta in self.arestas:
+                arestas.append([aresta[0] - 1, aresta[1] - 1])
+                arestas.append([aresta[1] - 1, aresta[0] - 1])
+            return arestas
+        if self.matriz:
+            return list(self.grafo.keys())
+
+    def bellman_ford(self, s):
+        infinito = float('inf')
+        distancias = [infinito for _ in range(self.vertices)]
+        distancias[s - 1] = 0
+        pai = [-1 for _ in range(self.vertices)]
+
+        # Implementar otimização
+        for _ in range(self.vertices - 1):
+            for v, w in self.arestas_grafo():
+                peso = self.peso_aresta(v, w)
+                if distancias[v] != infinito and distancias[v] + peso < distancias[w]:
+                    distancias[w] = distancias[v] + peso
+                    pai[w] = v
+
+        # Detecção de ciclos negativos
+        for a, b in self.arestas_grafo():
+            peso = self.peso_aresta(a, b)
+            if distancias[a] != infinito and distancias[a] + peso < distancias[b]:
+                print("Graph contains negative weight cycle")
+                return
+
+        return distancias, pai
