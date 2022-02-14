@@ -343,3 +343,32 @@ class Grafo:
 
     def dist_caminho_par(self, u, v):
         return self.dist_caminho_min(u)[v - 1]
+
+    def gerar_mst(self, s):
+
+        # Implementação do Algoritmo Prim
+        infinito = float('inf')
+        custo = [infinito for _ in range(self.vertices)]
+        custo[s - 1] = 0
+        fila = [(0, s - 1)]
+        descobertos = [False for _ in range(self.vertices)]
+        pai = [-1 for _ in range(self.vertices)]
+
+        while len(fila) > 0:
+            peso, v = heappop(fila)
+
+            if descobertos[v]:
+                continue
+
+            descobertos[v] = True
+
+            for w in self.vizinhos_bfs(v):
+                peso = self.peso_aresta(v, w)
+                if not descobertos[w] and custo[w] > peso:
+                    custo[w] = peso
+                    pai[w] = v + 1
+                    heappush(fila, (peso, w))
+
+        # Preparar para formatação do arquivo .txt com a árvore
+
+        return custo, pai
