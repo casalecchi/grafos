@@ -1,7 +1,6 @@
 from math import log10
 from random import sample
 from heapq import heappop, heappush
-from scipy.sparse import csr_matrix
 
 
 class Grafo:
@@ -272,7 +271,7 @@ class Grafo:
                 peso_uv = self.peso_aresta(u, vizinho)
                 if distancia[vizinho] > distancia[u] + peso_uv:
                     distancia[vizinho] = distancia[u] + peso_uv
-                    pai[vizinho] = u
+                    pai[vizinho] = u + 1
                     heappush(fila, (distancia[vizinho], vizinho))
 
         return distancia, pai
@@ -299,7 +298,7 @@ class Grafo:
                 peso = self.peso_aresta(v, w)
                 if distancias[v] != infinito and distancias[v] + peso < distancias[w]:
                     distancias[w] = distancias[v] + peso
-                    pai[w] = v
+                    pai[w] = v + 1
 
         # Detecção de ciclos negativos
         for a, b in self.arestas_grafo():
@@ -319,17 +318,20 @@ class Grafo:
         else:
             return self.bfs(s)[1:]
 
-    def dist_caminho_min(self, u, v):
+    def dist_caminho_min(self, u):
         distancias, pai = self.buscar(u)
-        caminho = [v]
-        vertice = v - 1
-        while vertice != -1:
-            vertice = pai[vertice]
-            caminho.append(vertice + 1)
-        return distancias[v - 1], caminho[::-1][1:]
+        dist_cam = []
 
-    def dist_caminho_min_todos(self, v):
-        dist_caminhos = []
-        for w in range(1, self.vertices + 1):
-            dist_caminhos.append(self.dist_caminho_min(v, w))
-        return dist_caminhos
+        for i in range(1, self.vertices + 1):
+            caminho = [i]
+            vertice = i
+
+            while vertice != -1:
+                vertice = pai[vertice - 1]
+                caminho.append(vertice)
+
+            dist_cam.append((distancias[i - 1], caminho[::-1][1:]))
+        return dist_cam
+
+    def dist_caminho_par(self, u, v):
+        return self.dist_caminho_min(u)[v - 1]
