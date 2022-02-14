@@ -292,13 +292,16 @@ class Grafo:
         distancias[s - 1] = 0
         pai = [-1 for _ in range(self.vertices)]
 
-        # Implementar otimização
         for _ in range(self.vertices - 1):
+            modificou = False
             for v, w in self.arestas_grafo():
                 peso = self.peso_aresta(v, w)
                 if distancias[v] != infinito and distancias[v] + peso < distancias[w]:
                     distancias[w] = distancias[v] + peso
+                    modificou = True
                     pai[w] = v + 1
+            if not modificou:
+                break
 
         # Detecção de ciclos negativos
         for a, b in self.arestas_grafo():
