@@ -304,8 +304,8 @@ class Grafo:
         for a, b in self.arestas_grafo():
             peso = self.peso_aresta(a, b)
             if distancias[a] != infinito and distancias[a] + peso < distancias[b]:
-                print("Graph contains negative weight cycle")
-                return
+                print("Grafo contém um ciclo negativo, distâncias não estão definidas.")
+                return 0, 0
 
         return distancias, pai
 
@@ -320,6 +320,11 @@ class Grafo:
 
     def dist_caminho_min(self, u):
         distancias, pai = self.buscar(u)
+
+        # Caso onde o grafo possui um ciclo negativo e não terá informações
+        if distancias == 0 and pai == 0:
+            return
+
         dist_cam = []
 
         for i in range(1, self.vertices + 1):

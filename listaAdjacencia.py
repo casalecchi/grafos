@@ -46,7 +46,7 @@ class Lista(Grafo):
 
 a = [[1, 2, 0.1], [1, 5, 1], [2, 5, 0.2], [3, 5, 5], [3, 4, -9.5], [4, 5, 2.3]]
 g = Lista(5, a)
-g.imprime_lista()
-print(g.tem_peso)
-print(g.tem_peso_negativo)
-print(g.dist_caminho_min(1,5))
+# g.imprime_lista()
+#print(g.tem_peso)
+#print(g.tem_peso_negativo)
+print(g.dist_caminho_min(1))
