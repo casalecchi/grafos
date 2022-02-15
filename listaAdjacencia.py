@@ -44,9 +44,9 @@ class Lista(Grafo):
         self.num_arestas -= 1
 
 
-a = [[1, 2, 0.1], [1, 5, 1], [2, 5, 0.2], [3, 5, 5], [3, 4, -9.5], [4, 5, 2.3]]
-g = Lista(5, a)
+# a = [[1, 2, 3], [1, 3, 4], [2, 3, -2], [2, 4, 5], [3, 4, -1]]
+# g = Lista(4, a)
 # g.imprime_lista()
 #print(g.tem_peso)
 #print(g.tem_peso_negativo)
-print(g.gerar_mst(1))
+# print(g.bellman_ford(1))

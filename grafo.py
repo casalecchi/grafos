@@ -294,23 +294,25 @@ class Grafo:
 
         for _ in range(self.vertices - 1):
             modificou = False
+            caminhos = [[0] for _ in range(self.vertices)]
             for v, w in self.arestas_grafo():
                 peso = self.peso_aresta(v, w)
                 if distancias[v] != infinito and distancias[v] + peso < distancias[w]:
                     distancias[w] = distancias[v] + peso
+                    caminhos[w].append(w)
                     modificou = True
                     pai[w] = v + 1
             if not modificou:
                 break
 
         # Detecção de ciclos negativos
-        for a, b in self.arestas_grafo():
-            peso = self.peso_aresta(a, b)
-            if distancias[a] != infinito and distancias[a] + peso < distancias[b]:
-                print("Grafo contém um ciclo negativo, distâncias não estão definidas.")
-                return 0, 0
+        # for a, b in self.arestas_grafo():
+        #     peso = self.peso_aresta(a, b)
+        #     if distancias[a] != infinito and distancias[a] + peso < distancias[b]:
+        #         print("Grafo contém um ciclo negativo, distâncias não estão definidas.")
+        #         return 0, 0
 
-        return distancias, pai
+        return distancias, caminhos
 
     def buscar(self, s):
         """Função que faz uma buscar a partir do vértice passado. Retorna os vetores de distância e pai."""
@@ -371,4 +373,26 @@ class Grafo:
 
         # Preparar para formatação do arquivo .txt com a árvore
 
-        return custo, pai
+        n_vertice = self.vertices
+        arestas = []
+        pilha = [s]
+        vetor_marcacao = [0 for _ in range(self.vertices)]
+
+        while len(arestas) < self.vertices - 1:
+            z = pilha.pop()
+            vetor_marcacao[z] = 1
+            for index, vertice in enumerate(pai):
+                if vertice == z:
+                    arestas.append([z, index + 1, self.peso_aresta(z - 1, index)])
+                else:
+                    if vetor_marcacao[index] == 0:
+                        pilha.append(index)
+
+        with open("mst.txt", "w") as f:
+            f.write(str(n_vertice) + "\n")
+            for aresta in arestas:
+                f.write(f"{aresta[0]} {aresta[1]} {aresta[2]}\n")
+
+        f.close()
+
+        return custo, pai, [n_vertice, arestas]
