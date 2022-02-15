@@ -294,12 +294,10 @@ class Grafo:
 
         for _ in range(self.vertices - 1):
             modificou = False
-            caminhos = [[0] for _ in range(self.vertices)]
             for v, w in self.arestas_grafo():
                 peso = self.peso_aresta(v, w)
                 if distancias[v] != infinito and distancias[v] + peso < distancias[w]:
                     distancias[w] = distancias[v] + peso
-                    caminhos[w].append(w)
                     modificou = True
                     pai[w] = v + 1
             if not modificou:
@@ -312,7 +310,7 @@ class Grafo:
         #         print("Grafo contém um ciclo negativo, distâncias não estão definidas.")
         #         return 0, 0
 
-        return distancias, caminhos
+        return distancias, pai
 
     def buscar(self, s):
         """Função que faz uma buscar a partir do vértice passado. Retorna os vetores de distância e pai."""

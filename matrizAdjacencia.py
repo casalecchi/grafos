@@ -70,11 +70,11 @@ class Matriz(Grafo):
 # g.adiciona_aresta(3, 6, 2)
 # g.adiciona_aresta(5, 6, 1)
 
-# g = Matriz(4)
-# g.adiciona_aresta(1, 2, 3)
-# g.adiciona_aresta(1, 3, 4)
-# g.adiciona_aresta(2, 3, -2)
-# g.adiciona_aresta(2, 4, 5)
-# g.adiciona_aresta(3, 4, -1)
+g = Matriz(4)
+g.adiciona_aresta(1, 2, 3)
+g.adiciona_aresta(1, 3, 4)
+g.adiciona_aresta(2, 3, -2)
+g.adiciona_aresta(2, 4, 5)
+g.adiciona_aresta(3, 4, -1)
 
-# print(g.gerar_mst(1))
+print(g.bellman_ford(1))
