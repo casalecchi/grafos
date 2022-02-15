@@ -373,20 +373,16 @@ class Grafo:
 
         # Preparar para formatação do arquivo .txt com a árvore
 
+        print(f"O custo total da MST é = {sum(custo)}")
+
         n_vertice = self.vertices
         arestas = []
-        pilha = [s]
-        vetor_marcacao = [0 for _ in range(self.vertices)]
+        vertices = [i for i in range(self.vertices)]
 
-        while len(arestas) < self.vertices - 1:
-            z = pilha.pop()
-            vetor_marcacao[z] = 1
-            for index, vertice in enumerate(pai):
-                if vertice == z:
-                    arestas.append([z, index + 1, self.peso_aresta(z - 1, index)])
-                else:
-                    if vetor_marcacao[index] == 0:
-                        pilha.append(index)
+        while len(vertices) != 0:
+            vertice = vertices.pop()
+            if pai[vertice] != -1:
+                arestas.append([vertice + 1, pai[vertice], self.peso_aresta(vertice, pai[vertice] - 1)])
 
         with open("mst.txt", "w") as f:
             f.write(str(n_vertice) + "\n")
