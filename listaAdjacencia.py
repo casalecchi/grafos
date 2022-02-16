@@ -4,14 +4,16 @@ from grafo import Grafo
 class Lista(Grafo):
     """Classe com herança da classe Grafo, que usa a implementação de lista de adjacência"""
 
-    def __init__(self, vertices, arestas):
+    def __init__(self, vertices, arestas, peso_negativo=False):
         super().__init__(vertices)
         self.lista = True
         self.vertices = vertices
         self.arestas = arestas
+        self.peso_negativo = peso_negativo
         self.grafo = [[] for _ in range(self.vertices)]
         self.num_arestas = len(arestas)
         self.lista_graus = []
+        self.tem_peso_negativo = self.peso_negativo
         self.adiciona_arestas()
 
     def imprime_lista(self):
@@ -24,14 +26,18 @@ class Lista(Grafo):
 
     def adiciona_arestas(self):
         """Função que adiciona a aresta no grafo"""
-        for aresta in self.arestas:
-            self.grafo[aresta[0] - 1].append([aresta[1] - 1, aresta[2]])
-            self.grafo[aresta[1] - 1].append([aresta[0] - 1, aresta[2]])
+        if self.tem_peso_negativo:
+            self.tem_peso = True
+            for aresta in self.arestas:
+                self.grafo[aresta[0] - 1].append([aresta[1] - 1, aresta[2]])
 
-            if (not self.tem_peso) and (aresta[2] != 1):
-                self.tem_peso = True
-            if self.tem_peso and (aresta[2] < 0):
-                self.tem_peso_negativo = True
+        else:
+            for aresta in self.arestas:
+                self.grafo[aresta[0] - 1].append([aresta[1] - 1, aresta[2]])
+                self.grafo[aresta[1] - 1].append([aresta[0] - 1, aresta[2]])
+
+                if (not self.tem_peso) and (aresta[2] != 1):
+                    self.tem_peso = True
 
         # Lista dos vizinhos de cada vértice é ordenada para funcionamento da BFS e DFS
         for lista_vertice in self.grafo:
@@ -39,9 +45,13 @@ class Lista(Grafo):
 
     def remover_aresta(self, u, v):
         """Função que remove a aresta do grafo"""
-        self.grafo[u-1].remove(v-1)
-        self.grafo[v-1].remove(u-1)
-        self.num_arestas -= 1
+        if self.tem_peso_negativo:
+            self.grafo[u-1].remove(v-1)
+            self.num_arestas -= 1
+        else:
+            self.grafo[u - 1].remove(v - 1)
+            self.grafo[v-1].remove(u-1)
+            self.num_arestas -= 1
 
 
 # a = [[1, 2, 3], [1, 3, 4], [2, 3, -2], [2, 4, 5], [3, 4, -1]]

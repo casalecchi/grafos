@@ -16,7 +16,7 @@ class Grafo:
         self.tem_peso = False
         self.tem_peso_negativo = False
 
-    def adiciona_aresta(self, u, v):
+    def adiciona_aresta(self, u, v, peso):
         """Função que adiciona a aresta no grafo"""
         pass
 
@@ -304,11 +304,11 @@ class Grafo:
                 break
 
         # Detecção de ciclos negativos
-        # for a, b in self.arestas_grafo():
-        #     peso = self.peso_aresta(a, b)
-        #     if distancias[a] != infinito and distancias[a] + peso < distancias[b]:
-        #         print("Grafo contém um ciclo negativo, distâncias não estão definidas.")
-        #         return 0, 0
+        for a, b in self.arestas_grafo():
+            peso = self.peso_aresta(a, b)
+            if distancias[a] != infinito and distancias[a] + peso < distancias[b]:
+                print("Grafo contém um ciclo negativo, distâncias não estão definidas.")
+                return 0, 0
 
         return distancias, pai
 
