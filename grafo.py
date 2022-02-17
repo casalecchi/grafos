@@ -279,11 +279,16 @@ class Grafo:
     def arestas_grafo(self):
         if self.lista:
             arestas = []
-            for aresta in self.arestas:
-                arestas.append([aresta[0] - 1, aresta[1] - 1])
-                arestas.append([aresta[1] - 1, aresta[0] - 1])
+            if self.tem_peso_negativo:
+                for aresta in self.arestas:
+                    arestas.append([aresta[0] - 1, aresta[1] - 1])
+            else:
+                for aresta in self.arestas:
+                    arestas.append([aresta[0] - 1, aresta[1] - 1])
+                    arestas.append([aresta[1] - 1, aresta[0] - 1])
             return arestas
         if self.matriz:
+            a = list(self.grafo.keys())
             return list(self.grafo.keys())
 
     def bellman_ford(self, s):
@@ -297,26 +302,38 @@ class Grafo:
             for v, w in self.arestas_grafo():
                 peso = self.peso_aresta(v, w)
                 if distancias[v] != infinito and distancias[v] + peso < distancias[w]:
+                    # Aqui detectaria se uma aresta bidirecional já foi utilizada e a impediria de ser utilizada
+                    # novamente. Porém isso dá alguns casos com o resultado errado.
+                    # if pai[w] == v + 1:
+                    #     continue
                     distancias[w] = distancias[v] + peso
                     modificou = True
                     pai[w] = v + 1
             if not modificou:
                 break
 
-        # Detecção de ciclos negativos
-        for a, b in self.arestas_grafo():
-            peso = self.peso_aresta(a, b)
-            if distancias[a] != infinito and distancias[a] + peso < distancias[b]:
-                print("Grafo contém um ciclo negativo, distâncias não estão definidas.")
-                return 0, 0
+        print("Bellman-Ford rodou")
+
+        if self.tem_ciclo_negativo(distancias):
+            return 1, 1
 
         return distancias, pai
+
+    def tem_ciclo_negativo(self, distancias):
+        infinito = float('inf')
+
+        for i, j in self.arestas_grafo():
+            peso = self.peso_aresta(i, j)
+            if distancias[i] != infinito and distancias[i] + peso < distancias[j]:
+                print("Grafo contém um ciclo negativo, distâncias não estão definidas.")
+                return True
+        return False
 
     def buscar(self, s):
         """Função que faz uma buscar a partir do vértice passado. Retorna os vetores de distância e pai."""
         if self.tem_peso_negativo:
             return self.bellman_ford(s)
-        if self.tem_peso:
+        elif self.tem_peso:
             return self.dijkstra(s)
         else:
             return self.bfs(s)[1:]
@@ -325,7 +342,7 @@ class Grafo:
         distancias, pai = self.buscar(u)
 
         # Caso onde o grafo possui um ciclo negativo e não terá informações
-        if distancias == 0 and pai == 0:
+        if distancias == 1 and pai == 1:
             return
 
         dist_cam = []

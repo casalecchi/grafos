@@ -54,9 +54,7 @@ class Lista(Grafo):
             self.num_arestas -= 1
 
 
-# a = [[1, 2, 3], [1, 3, 4], [2, 3, -2], [2, 4, 5], [3, 4, -1]]
-# g = Lista(4, a)
-# g.imprime_lista()
-#print(g.tem_peso)
-#print(g.tem_peso_negativo)
+# a = [[1, 2, 4], [1, 3, 2], [2, 3, -5], [3, 2, 1], [2, 4, 2], [2, 5, 3], [3, 4, 4], [3, 5, 5], [5, 4, -5]]
+# g = Lista(5, a, peso_negativo=True)
+#
 # print(g.bellman_ford(1))
