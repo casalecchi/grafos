@@ -42,3 +42,11 @@ arvore = grafo.gerar_mst(1)[0]
 print("--- %s seconds --- Gerar MST" % (time.time() - start_time))
 
 print(f"O peso total da MST é = {sum(arvore)}")
+
+# Grafo de Rede de Colaboração
+dist_cam = grafo.dist_caminho_min(2722)
+print(f"Distância e caminho entre Dijkstra e Turing -> {dist_cam[11364]}")
+print(f"Distância e caminho entre Dijkstra e Kruskal -> {dist_cam[471364]}")
+print(f"Distância e caminho entre Dijkstra e Kleinberg -> {dist_cam[5708]}")
+print(f"Distância e caminho entre Dijkstra e Tardos -> {dist_cam[11385]}")
+print(f"Distância e caminho entre Dijkstra e Ratton -> {dist_cam[343929]}")
