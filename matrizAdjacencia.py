@@ -7,7 +7,6 @@ class Matriz(Grafo):
 
     def __init__(self, vertices, peso_negativo):
         super().__init__(vertices)
-        self.matriz = True
         self.vertices = vertices
         self.peso_negativo = peso_negativo
         # Foi utilizado a matriz esparsa "dok_matrix" implementada na biblioteca scipy
@@ -43,19 +42,42 @@ class Matriz(Grafo):
             self.grafo[v - 1, u - 1] = 0
             self.num_arestas -= 1
 
+    def vizinhos_bfs(self, s):
+        """Função auxiliar a BFS, que retorna uma lista com os vizinhos a serem percorridos de um vértice s.
+        Verifica qual é a implementação para poder criar essa lista."""
+        pares_vertices = self.grafo[s].keys()
+        return list(map(lambda x: x[1], pares_vertices))
 
-# g = Matriz(7)
-# g.adiciona_aresta(1, 2, 1)
-# g.adiciona_aresta(1, 5, 2)
-# g.adiciona_aresta(1, 4, 4)
-# g.adiciona_aresta(2, 4, 2)
-# g.adiciona_aresta(2, 3, 4)
-# g.adiciona_aresta(5, 4, 2)
-# g.adiciona_aresta(5, 6, 3)
-# g.adiciona_aresta(4, 6, 2)
-# g.adiciona_aresta(3, 7, 2)
-# g.adiciona_aresta(6, 7, 3)
-# g.adiciona_aresta(4, 3, 1)
+    def vizinhos_dfs(self, s):
+        """Função auxiliar a DFS, que retorna uma lista com os vizinhos de um determinado vértice s
+        em ordem decrescente. Verifica qual é a implementação para poder criar essa lista."""
+        pares_vertices = self.grafo[s].keys()
+        return list(map(lambda x: x[1], pares_vertices))[::-1]
+
+    def peso_aresta(self, u, v):
+        """Função que retorna o peso de uma aresta entre dois vértices passados"""
+        infinito = float("inf")
+
+        if self.grafo[(u, v)] == 0:
+            return infinito
+        return self.grafo[(u, v)]
+
+    def arestas_grafo(self):
+        """Função que retorna uma lista contendo todas as arestas do grafo."""
+        return list(self.grafo.keys())
+
+
+g = Matriz(8, peso_negativo=True)
+g.adiciona_aresta(1, 2, 3)
+g.adiciona_aresta(1, 6, -1)
+g.adiciona_aresta(6, 2, 1)
+g.adiciona_aresta(2, 3, 1)
+g.adiciona_aresta(6, 3, 4)
+g.adiciona_aresta(6, 5, 2)
+g.adiciona_aresta(5, 8, 3)
+g.adiciona_aresta(8, 7, 1)
+g.adiciona_aresta(7, 2, -2)
+g.adiciona_aresta(4, 3, -1)
 # g.imprime_matriz()
 
 # g = Matriz(8)
@@ -89,4 +111,4 @@ class Matriz(Grafo):
 # g.adiciona_aresta(3, 5, 5)
 # g.adiciona_aresta(5, 4, -5)
 #
-# print(g.bellman_ford(1))
+print(g.bellman_ford(1))

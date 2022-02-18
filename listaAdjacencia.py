@@ -6,7 +6,6 @@ class Lista(Grafo):
 
     def __init__(self, vertices, arestas, peso_negativo=False):
         super().__init__(vertices)
-        self.lista = True
         self.vertices = vertices
         self.arestas = arestas
         self.peso_negativo = peso_negativo
@@ -52,6 +51,43 @@ class Lista(Grafo):
             self.grafo[u - 1].remove(v - 1)
             self.grafo[v-1].remove(u-1)
             self.num_arestas -= 1
+
+    def vizinhos_bfs(self, s):
+        """Função auxiliar a BFS, que retorna uma lista com os vizinhos a serem percorridos de um vértice s.
+        Verifica qual é a implementação para poder criar essa lista."""
+        vizinhos = []
+        for vizinho in self.grafo[s]:
+            vizinhos.append(vizinho[0])
+        return vizinhos
+
+    def vizinhos_dfs(self, s):
+        """Função auxiliar a DFS, que retorna uma lista com os vizinhos de um determinado vértice s
+        em ordem decrescente. Verifica qual é a implementação para poder criar essa lista."""
+        vizinhos = []
+        for vizinho in self.grafo[s]:
+            vizinhos.append(vizinho[0])
+        return vizinhos[::-1]
+
+    def peso_aresta(self, u, v):
+        """Função que retorna o peso de uma aresta entre dois vértices passados"""
+        infinito = float("inf")
+
+        for aresta in self.grafo[u]:
+            if aresta[0] == v:
+                return aresta[1]
+        return infinito
+
+    def arestas_grafo(self):
+        """Função que retorna uma lista contendo todas as arestas do grafo."""
+        arestas = []
+        if self.tem_peso_negativo:
+            for aresta in self.arestas:
+                arestas.append([aresta[0] - 1, aresta[1] - 1])
+        else:
+            for aresta in self.arestas:
+                arestas.append([aresta[0] - 1, aresta[1] - 1])
+                arestas.append([aresta[1] - 1, aresta[0] - 1])
+        return arestas
 
 
 # a = [[1, 2, 4], [1, 3, 2], [2, 3, -5], [3, 2, 1], [2, 4, 2], [2, 5, 3], [3, 4, 4], [3, 5, 5], [5, 4, -5]]

@@ -5,10 +5,6 @@ from heapq import heappop, heappush
 
 class Grafo:
 
-    # Atributos que serão utilizados na bfs e na dfs para poder funcionar para ambas as implementações
-    matriz = False
-    lista = False
-
     def __init__(self, vertices):
         self.vertices = vertices
         self.grafo = []
@@ -71,14 +67,7 @@ class Grafo:
     def vizinhos_bfs(self, s):
         """Função auxiliar a BFS, que retorna uma lista com os vizinhos a serem percorridos de um vértice s.
         Verifica qual é a implementação para poder criar essa lista."""
-        if self.lista:
-            vizinhos = []
-            for vizinho in self.grafo[s]:
-                vizinhos.append(vizinho[0])
-            return vizinhos
-        elif self.matriz:
-            pares_vertices = self.grafo[s].keys()
-            return list(map(lambda x: x[1], pares_vertices))
+        pass
 
     def bfs(self, s):
         """Executa a BFS do vértice passado como o vértice raiz e retorna uma tupla com 3 listas -> A ordem dos vértices
@@ -128,14 +117,7 @@ class Grafo:
     def vizinhos_dfs(self, s):
         """Função auxiliar a DFS, que retorna uma lista com os vizinhos de um determinado vértice s
         em ordem decrescente. Verifica qual é a implementação para poder criar essa lista."""
-        if self.lista:
-            vizinhos = []
-            for vizinho in self.grafo[s]:
-                vizinhos.append(vizinho[0])
-            return vizinhos[::-1]
-        elif self.matriz:
-            pares_vertices = self.grafo[s].keys()
-            return list(map(lambda x: x[1], pares_vertices))[::-1]
+        pass
 
     def dfs(self, s):
         """Executa a DFS do vértice passado como o vértice raiz e
@@ -227,31 +209,13 @@ class Grafo:
 
     # Implementação da Parte 2 do Trabalho - GRAFOS COM PESOS
 
-    '''
-    1) Implementar a distância entre dois vértices, assim como indicar o caminho.
-    2) Se o grafo não possuir peso, usar a buca em largura.
-    3) Se possuir pesos não negativos -> usar Dijkstra.
-    4) Se possuir pesos negativos -> usar Floyd-Warshall ou Bellman-Ford.
-    5) Se possuir pesos negativos -> detectar ciclos negativos (casos em que a distância não está definida).
-    6) Além de calcular a distância e caminho mínimo entre um par de vértices, fazer isso com um vértice para
-    todos os outros. 
-    7) Encontrar uma árvore geradora mínima do grafo. 
-    8) MST deve ser escrita em um arquivo.    
-    '''
-
     def peso_aresta(self, u, v):
-        infinito = float("inf")
-        if self.lista:
-            for aresta in self.grafo[u]:
-                if aresta[0] == v:
-                    return aresta[1]
-            return infinito
-        if self.matriz:
-            if self.grafo[(u, v)] == 0:
-                return infinito
-            return self.grafo[(u, v)]
+        """Função que retorna o peso de uma aresta entre dois vértices passados"""
+        pass
 
     def dijkstra(self, s):
+        """Algoritmo de Dijkstra. Retorna um vetor de distância entre o vértice passado e
+        todos os outros do grafo. Além disso também retorna o vetor de pai de cada vértice."""
         infinito = float('inf')
         distancia = [infinito for _ in range(self.vertices)]
         descobertos = [False for _ in range(self.vertices)]
@@ -277,21 +241,12 @@ class Grafo:
         return distancia, pai
 
     def arestas_grafo(self):
-        if self.lista:
-            arestas = []
-            if self.tem_peso_negativo:
-                for aresta in self.arestas:
-                    arestas.append([aresta[0] - 1, aresta[1] - 1])
-            else:
-                for aresta in self.arestas:
-                    arestas.append([aresta[0] - 1, aresta[1] - 1])
-                    arestas.append([aresta[1] - 1, aresta[0] - 1])
-            return arestas
-        if self.matriz:
-            a = list(self.grafo.keys())
-            return list(self.grafo.keys())
+        """Função que retorna uma lista contendo todas as arestas do grafo."""
+        pass
 
     def bellman_ford(self, s):
+        """Algoritmo de Bellman-Ford. Retorna uma lista contendo as distâncias entre o vértice
+        passado e todos os outros. Também retorna uma lista contendo os pais de cada vértice."""
         infinito = float('inf')
         distancias = [infinito for _ in range(self.vertices)]
         distancias[s - 1] = 0
@@ -309,10 +264,9 @@ class Grafo:
                     distancias[w] = distancias[v] + peso
                     modificou = True
                     pai[w] = v + 1
+                    print(f"Mudou {v, w}")
             if not modificou:
                 break
-
-        print("Bellman-Ford rodou")
 
         if self.tem_ciclo_negativo(distancias):
             return 1, 1
@@ -320,6 +274,7 @@ class Grafo:
         return distancias, pai
 
     def tem_ciclo_negativo(self, distancias):
+        """Função retorna um valor booleano para a detecção de ciclos negativos no grafo."""
         infinito = float('inf')
 
         for i, j in self.arestas_grafo():
@@ -339,6 +294,8 @@ class Grafo:
             return self.bfs(s)[1:]
 
     def dist_caminho_min(self, u):
+        """Função retorna uma lista contendo em cada index, a distância de um vértice passado
+        para todos os outros e um caminho mínimo."""
         distancias, pai = self.buscar(u)
 
         # Caso onde o grafo possui um ciclo negativo e não terá informações
@@ -359,9 +316,14 @@ class Grafo:
         return dist_cam
 
     def dist_caminho_par(self, u, v):
+        """Função retorna a distância e um caminho mínimo entre dois vértices."""
         return self.dist_caminho_min(u)[v - 1]
 
     def gerar_mst(self, s):
+        """Função retorna uma lista de custo de um vértice passado para todos os outros
+        vértices do grafo e uma lista de pais para cada vértice do grafo. Ao rodar a função,
+        um arquivo entitulado 'mst.txt' é criado. Ele consiste na mesma organização de um
+        grafo em um aruivo .txt presente no enunciado do trabalho."""
 
         # Implementação do Algoritmo Prim
         infinito = float('inf')
@@ -403,7 +365,6 @@ class Grafo:
             f.write(str(n_vertice) + "\n")
             for aresta in arestas:
                 f.write(f"{aresta[0]} {aresta[1]} {aresta[2]}\n")
-
         f.close()
 
-        return custo, pai, [n_vertice, arestas]
+        return custo, pai
