@@ -5,7 +5,7 @@ from scipy.sparse import dok_matrix
 class Matriz(Grafo):
     """Classe com herança da classe Grafo, que usa a implementação com matriz de adjacência"""
 
-    def __init__(self, vertices, peso_negativo):
+    def __init__(self, vertices, peso_negativo=False):
         super().__init__(vertices)
         self.vertices = vertices
         self.peso_negativo = peso_negativo
