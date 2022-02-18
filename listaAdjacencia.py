@@ -88,9 +88,3 @@ class Lista(Grafo):
                 arestas.append([aresta[0] - 1, aresta[1] - 1])
                 arestas.append([aresta[1] - 1, aresta[0] - 1])
         return arestas
-
-
-# a = [[1, 2, 4], [1, 3, 2], [2, 3, -5], [3, 2, 1], [2, 4, 2], [2, 5, 3], [3, 4, 4], [3, 5, 5], [5, 4, -5]]
-# g = Lista(5, a, peso_negativo=True)
-#
-# print(g.bellman_ford(1))
