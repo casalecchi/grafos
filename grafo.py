@@ -211,6 +211,7 @@ class Grafo:
 
     def peso_aresta(self, u, v):
         """Função que retorna o peso de uma aresta entre dois vértices passados"""
+        # Implementado de forma diferente para matriz e lista
         pass
 
     def dijkstra(self, s):
@@ -218,9 +219,13 @@ class Grafo:
         todos os outros do grafo. Além disso também retorna o vetor de pai de cada vértice."""
         infinito = float('inf')
         distancia = [infinito for _ in range(self.vertices)]
+
+        # Vetor de marcação para saber se já adicionamos o vértice no heap ou não
         descobertos = [False for _ in range(self.vertices)]
         pai = [-1 for _ in range(self.vertices)]
         distancia[s - 1] = 0
+
+        # Estrutura de nó para o heap -> (distância, vértice)
         fila = [(0, s - 1)]
 
         while len(fila) > 0:
@@ -231,6 +236,7 @@ class Grafo:
 
             descobertos[u] = True
 
+            # Função vizinhos_bfs utilizada apenas para pegar os vizinhos do vértice u
             for vizinho in self.vizinhos_bfs(u):
                 peso_uv = self.peso_aresta(u, vizinho)
                 if distancia[vizinho] > distancia[u] + peso_uv:
@@ -242,6 +248,7 @@ class Grafo:
 
     def arestas_grafo(self):
         """Função que retorna uma lista contendo todas as arestas do grafo."""
+        # Implementado de forma diferente para matriz e lista
         pass
 
     def bellman_ford(self, s):
@@ -252,15 +259,15 @@ class Grafo:
         distancias[s - 1] = 0
         pai = [-1 for _ in range(self.vertices)]
 
+        # Iteração será feita |V| - 1 vezes
         for _ in range(self.vertices - 1):
+
+            # Variável modificou feita para saber se na última iteração das arestas alguma distância foi modificada,
+            # caso não, ele quebra o loop para melhorar seu tempo de execução
             modificou = False
             for v, w in self.arestas_grafo():
                 peso = self.peso_aresta(v, w)
                 if distancias[v] != infinito and distancias[v] + peso < distancias[w]:
-                    # Aqui detectaria se uma aresta bidirecional já foi utilizada e a impediria de ser utilizada
-                    # novamente. Porém isso dá alguns casos com o resultado errado.
-                    # if pai[w] == v + 1:
-                    #     continue
                     distancias[w] = distancias[v] + peso
                     modificou = True
                     pai[w] = v + 1
@@ -269,6 +276,7 @@ class Grafo:
                 break
 
         if self.tem_ciclo_negativo(distancias):
+            # Retorna 1, 1 apenas para o erro ser tratado depois
             return 1, 1
 
         return distancias, pai
@@ -286,6 +294,8 @@ class Grafo:
 
     def buscar(self, s):
         """Função que faz uma buscar a partir do vértice passado. Retorna os vetores de distância e pai."""
+
+        # Escolha da busca dependendo das características do grafo
         if self.tem_peso_negativo:
             return self.bellman_ford(s)
         elif self.tem_peso:
@@ -308,10 +318,12 @@ class Grafo:
             caminho = [i]
             vertice = i
 
+            # Utilizamos o vetor de pais para sair de um vértice e chegar até ao vértice raiz
             while vertice != -1:
                 vertice = pai[vertice - 1]
                 caminho.append(vertice)
 
+            # Ocaminho é retornado ao contrário para o formato ser: [raiz....vértice desejado]
             dist_cam.append((distancias[i - 1], caminho[::-1][1:]))
         return dist_cam
 
@@ -356,6 +368,8 @@ class Grafo:
         arestas = []
         vertices = [i for i in range(self.vertices)]
 
+        # Da mesma forma que na função de dist_caminho_min utilizamos a lista de pais para achar as arestas
+        # e adicioná-las com seu respectivo pai no arquivo
         while len(vertices) != 0:
             vertice = vertices.pop()
             if pai[vertice] != -1:
